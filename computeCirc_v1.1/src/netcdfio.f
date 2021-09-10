@@ -5,7 +5,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 
@@ -62,7 +62,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 
@@ -131,7 +131,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 
@@ -195,7 +195,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 
@@ -263,7 +263,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables            
 
@@ -333,7 +333,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 
@@ -454,7 +454,7 @@
 
       implicit none
 
-      include '../../netcdf/include/netcdf.inc'
+      include 'netcdf.inc'
 
 ! Passed variables
 

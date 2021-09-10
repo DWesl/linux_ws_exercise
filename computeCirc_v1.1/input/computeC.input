@@ -17,7 +17,7 @@
 
  &inputparms
     nfiles = 1,
-    infile(1) = '/absolute/path/to/7jun09/012232.dow6dow7.dd.nc',
+    infile(1) = '/absolute/path/to/012232.dow6dow7.dd.nc',
     u_variable = 'U',
     v_variable = 'V',
     radius = 1.0

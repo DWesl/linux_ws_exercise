@@ -1,0 +1,46 @@
+!--------------------------------------------------------------
+! This is an example input file for computeC.  
+! 
+!  nfiles              number of netcdf files on which you wish 
+!                      to compute fields of circulation
+!
+!  infile(n)           nth netcdf input file to be examined
+!
+!  u_variable          name of x wind component in netcdf file
+!
+!  v_variable          name of y wind component in netcdf file
+!
+!  radius              radius (km) about which you which to compute 
+!                      circulation at each grid point
+!
+!--------------------------------------------------------------
+
+ &inputparms
+    nfiles = 23,
+    infile(1) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/221848/221848.dow6dow7.dd.nc',
+    infile(2) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/222050/222050.dow6dow7.dd.nc',
+    infile(3) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/222251/222251.dow6dow7.dd.nc',
+    infile(4) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/222451/222451.dow6dow7.dd.nc',
+    infile(5) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/222651/222651.dow6dow7.dd.nc',
+    infile(6) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/222851/222851.dow6dow7.dd.nc',
+    infile(7) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/223051/223051.dow6dow7.dd.nc',
+    infile(8) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/223251/223251.dow6dow7.dd.nc',
+    infile(9) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/223451/223451.dow6dow7.dd.nc',
+    infile(10) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/223651/223651.dow6dow7.dd.nc',
+    infile(11) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/223851/223851.dow6dow7.dd.nc',
+    infile(12) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/224050/224050.dow6dow7.dd.nc',
+    infile(13) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/224251/224251.dow6dow7.dd.nc',
+    infile(14) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/224451/224451.dow6dow7.dd.nc',
+    infile(15) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/224652/224652.dow6dow7.dd.nc',
+    infile(16) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/224850/224850.dow6dow7.dd.nc',
+    infile(17) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/225051/225051.dow6dow7.dd.nc',
+    infile(18) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/225248/225248.dow6dow7.dd.nc',
+    infile(19) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/225451/225451.dow6dow7.dd.nc',
+    infile(20) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/225648/225648.dow6dow7.dd.nc',
+    infile(21) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/225851/225851.dow6dow7.dd.nc',
+    infile(22) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/230050/230050.dow6dow7.dd.nc',
+    infile(23) = '/convect/s3/sfm5282/vortex2/26may10/dd_synth/dow6_dow7/0.951k_20180320/230251/230251.dow6dow7.dd.nc',
+    u_variable = 'U',
+    v_variable = 'V',
+    radius = 2.0
+ &END
