@@ -1,0 +1,2 @@
+v1.0: original version
+v1.1: fixed small issue that could result in seg faults in some unlucky cases

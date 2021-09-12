@@ -1,0 +1,19 @@
+This code computes circulation at each gridpoint about a radius of
+arbitrary choosing, and then writes the field to the wind synthesis 
+file as 'CIRC'.  The units are *10^4 m2/s.
+
+Usage:  bin/computeC < input/computeC.input
+
+If you already have a field by this name in your input netcdf file, the
+field will be overwritten!
+
+Paul Markowski
+8/2/17
+
+--------------------------------------------------------------------------------
+Edit input/computeC.input to change the input radar file name and directory 
+(using the infile variable) and to change the radius about which the Eulerian 
+circulation is computed (default is 1 km).
+
+Shawn Murdzek
+9/12/2021
