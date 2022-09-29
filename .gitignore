@@ -87,3 +87,9 @@ Makefile
 *.exe
 *.out
 *.app
+
+### My exclusions ###
+# Autotools-generated files
+config.h.in
+build-aux
+configure
