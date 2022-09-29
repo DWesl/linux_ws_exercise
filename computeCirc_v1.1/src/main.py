@@ -42,17 +42,17 @@ if __name__ == "__main__":
         u = netcdfio.netcdf_read(U_VARIABLE, in_file_name, nx, ny, nz)
         v = netcdfio.netcdf_read(V_VARIABLE, in_file_name, nx, ny, nz)
 
-        circ = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, RADIUS)
+        circulation = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, RADIUS)
 
-        circ = circ * C_SCALE
+        circulation = circulation * C_SCALE
 
         print("Done\n\nWriting data to netcdf file")  # noqa: T001
 
         label = "CIRC"
         istatus = netcdfio.varinq(label, in_file_name)
         if not istatus:
-            netcdfio.netcdf_write(circ, label, in_file_name, nx, ny, nz)
+            netcdfio.netcdf_write(circulation, label, in_file_name, nx, ny, nz)
         else:
-            netcdfio.netcdf_overwrite(circ, label, in_file_name, nx, ny, nz)
+            netcdfio.netcdf_overwrite(circulation, label, in_file_name, nx, ny, nz)
 
         print("Done\n\nOperation completed for", in_file_name, "\n\n")  # noqa: T001

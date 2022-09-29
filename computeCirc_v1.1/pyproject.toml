@@ -7,3 +7,7 @@ src_paths = ["src"]
 [tool.pydocstringformatter]
 write = true
 style = ["pep257", "numpydoc"]
+
+[tool.mypy]
+# strict = true
+files = "src/*.py"

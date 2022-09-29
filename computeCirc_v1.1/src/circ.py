@@ -6,6 +6,7 @@ the circle will fit.
 import math
 
 import numpy as np
+import numpy.typing as npt
 
 import const
 import interp
@@ -14,11 +15,11 @@ N_AZIMUTHS = 72
 
 
 def getcirc(
-    u: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
-    v: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
-    x: "np.ndarray[(nx,), np.floating]",  # noqa: F821
-    y: "np.ndarray[(ny,), np.floating]",  # noqa: F821
-    z: "np.ndarray[(nz,), np.floating]",  # noqa: F821
+    u: "npt.NDArray[np.floating]",  # noqa: F821
+    v: "npt.NDArray[np.floating]",  # noqa: F821
+    x: "npt.NDArray[np.floating]",  # noqa: F821
+    y: "npt.NDArray[np.floating]",  # noqa: F821
+    z: "npt.NDArray[np.floating]",  # noqa: F821
     dx: float,
     dy: float,
     dz: float,
@@ -26,7 +27,7 @@ def getcirc(
     ny: int,
     nz: int,
     radius: float,
-) -> "np.ndarray[(nz, ny, nx), np.floating]":  # noqa: F821
+) -> "npt.NDArray[np.floating]":  # noqa: F821
     """Calculate circulation around each point.
 
     Uses circles of the given radius for calculating circulation

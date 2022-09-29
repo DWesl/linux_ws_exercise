@@ -10,6 +10,7 @@ It might be possible to rewrite as a list of calls to
 from functools import reduce
 
 import numpy as np
+import numpy.typing as npt
 
 import const
 
@@ -18,13 +19,13 @@ def interp(
     x: float,
     y: float,
     z: float,
-    xgrid: "np.ndarray[(nx,), np.floating]",  # noqa: F821
-    ygrid: "np.ndarray[(ny,), np.floating]",  # noqa: F821
-    zgrid: "np.ndarray[(nz,), np.floating]",  # noqa: F821
+    xgrid: "npt.NDArray[np.floating]",  # noqa: F821
+    ygrid: "npt.NDArray[np.floating]",  # noqa: F821
+    zgrid: "npt.NDArray[np.floating]",  # noqa: F821
     dx: float,
     dy: float,
     dz: float,
-    var: "np.ndarray[(nx, ny, nz), np.floating]",  # noqa: F821
+    var: "npt.NDArray[np.floating]",  # noqa: F821
     nx: int,
     ny: int,
     nz: int,
@@ -39,11 +40,11 @@ def interp(
         Y location for interpolation
     z : float
         Z location for interpolation
-    xgrid : "np.ndarray[(nx,), np.floating]"
+    xgrid : "npt.NDArray[(nx,), np.floating]"
         X coordinates for grid of var (assumed increasing and regular)
-    ygrid : "np.ndarray[(ny,), np.floating]"
+    ygrid : "npt.NDArray[(ny,), np.floating]"
         Y coordinates for grid of var (assumed increasing and regular)
-    zgrid : "np.ndarray[(nz,), np.floating]"
+    zgrid : "npt.NDArray[(nz,), np.floating]"
         Z coordinates for grid of var (assumed increasing and regular)
     dx : float
         grid spacing in X (assumed uniform)
@@ -51,7 +52,7 @@ def interp(
         grid spacing in y (assumed uniform)
     dz : float
         grid spacing in z (assumed uniform)
-    var : "np.ndarray[(nx, ny, nz), np.floating]"
+    var : "npt.NDArray[(nx, ny, nz), np.floating]"
         Field to interpolated; assumed defined on regular grid.
     nx : int
         Number of points in x direction
@@ -77,16 +78,17 @@ def interp(
     c2 = (y - ygrid[sy]) / dy
     c3 = (z - zgrid[sz]) / dz
 
+    interpvar: float = const.MISSING_VAL
     if np.all(var[sx : sx + 2, sy : sy + 2, sz : sy + 2] != const.MISSING_VAL):
         interpvar = np.sum(
             reduce(
                 np.multiply,
-                np.array([[[1 - c1]], [[c1]]]),
-                np.array([[[1 - c2], [c2]]]),
-                np.array([[[1 - c3, c3]]]),
-                var[sx : sx + 2, sy : sy + 2, sz : sz + 2],
+                [
+                    np.array([[[1 - c1]], [[c1]]]),
+                    np.array([[[1 - c2], [c2]]]),
+                    np.array([[[1 - c3, c3]]]),
+                    var[sx : sx + 2, sy : sy + 2, sz : sz + 2],
+                ]
             )
         )
-    else:
-        interpvar = const.MISSING_VAL
     return interpvar

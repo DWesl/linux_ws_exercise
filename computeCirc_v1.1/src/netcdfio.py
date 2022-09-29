@@ -4,8 +4,9 @@ Simple wrappers around netCDF4 calls, mostly.
 """
 from typing import Tuple
 
-import netCDF4
+import netCDF4  # type: ignore
 import numpy as np
+import numpy.typing as npt
 
 
 def getsize(filename: str) -> Tuple[int, int, int, int]:
@@ -42,9 +43,9 @@ def getgridinfo(
     float,
     float,
     float,
-    "np.ndarray[(nx,), np.floating]",  # noqa: F821
-    "np.ndarray[(ny,), np.floating]",  # noqa: F821
-    "np.ndarray[(nz,), np.floating]",  # noqa: F821
+    "npt.NDArray[np.floating]",  # noqa: F821
+    "npt.NDArray[np.floating]",  # noqa: F821
+    "npt.NDArray[np.floating]"  # noqa: F821
 ]:
     """Get grid information from file.
 
@@ -80,7 +81,7 @@ def getgridinfo(
 
 def getvarnames(
     filename: str, nv: int
-) -> "np.ndarray[(nv,), np.unicode_]":  # noqa: F821
+) -> "npt.NDArray[np.unicode_]":  # noqa: F821
     """Get a list of variables in a netCDF file.
 
     Parameters
@@ -101,7 +102,7 @@ def getvarnames(
     """
     with netCDF4.Dataset(filename, "r") as ncds:
         name_length = 8
-        field_names = np.char.rstrip(
+        field_names: npt.NDArray[np.floating] = np.char.rstrip(
             ncds.variables["field_names"][:].view("S{:d}".format(name_length))[:, 0]
         )
     return np.char.decode(field_names, "ascii")
@@ -109,7 +110,7 @@ def getvarnames(
 
 def netcdf_read(
     varname: str, filename: str, nx: int, ny: int, nz: int
-) -> "np.ndarray[(nz, ny, nx), np.floating]":  # noqa: F821
+) -> "npt.NDArray[np.floating]":  # noqa: F821
     """Get variable from file.
 
     Parameters
@@ -135,18 +136,18 @@ def netcdf_read(
     FIXME: Add docs.
     """
     with netCDF4.Dataset(filename, "r") as ncds:
-        val = ncds.variables[varname][:]
+        val: npt.NDArray[np.floating] = ncds.variables[varname][:]
     return val
 
 
 def netcdf_overwrite(
-    val: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
+    val: "npt.NDArray[np.floating]",  # noqa: F821
     varname: str,
     filename: str,
     nx: int,
     ny: int,
     nz: int,
-):
+) -> None:
     """Overwrite variable values in file.
 
     Parameters
@@ -177,13 +178,13 @@ def netcdf_overwrite(
 
 
 def netcdf_write(
-    val: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
+    val: "npt.NDArray[np.floating]",  # noqa: F821
     varname: str,
     filename: str,
     nx: int,
     ny: int,
     nz: int,
-):
+) -> None:
     """Write a new variable to netCDF file.
 
     If variable already exists, call :py:func:`netcdf_overwrite`
