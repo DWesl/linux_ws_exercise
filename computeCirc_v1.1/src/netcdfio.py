@@ -32,7 +32,16 @@ def getsize(filename: str) -> Tuple[int, int, int, int]:
     return nx, ny, nz, nv
 
 
-def getgridinfo(filename: str, nx: int, ny: int, nz: int) -> Tuple[float, float, float, "np.ndarray[(nx,), np.floating]", "np.ndarray[(ny,), np.floating]", "np.ndarray[(nz,), np.floating]"]:
+def getgridinfo(
+    filename: str, nx: int, ny: int, nz: int
+) -> Tuple[
+    float,
+    float,
+    float,
+    "np.ndarray[(nx,), np.floating]",
+    "np.ndarray[(ny,), np.floating]",
+    "np.ndarray[(nz,), np.floating]",
+]:
     """Get grid information from file
 
     Parameters
@@ -87,14 +96,14 @@ def getvarnames(filename: str, nv: int) -> "np.ndarray[(nv,), np.unicode_]":
     with netCDF4.Dataset(filename, "r") as ncds:
         name_length = 8
         field_names = np.char.rstrip(
-            ncds.variables["field_names"][:].view(
-                "S{:d}".format(name_length)
-            )[:, 0]
+            ncds.variables["field_names"][:].view("S{:d}".format(name_length))[:, 0]
         )
     return np.char.decode(field_names, "ascii")
 
 
-def netcdf_read(varname: str, filename: str, nx: int, ny: int, nz: int) -> "np.ndarray[(nz, ny, nx), np.floating]":
+def netcdf_read(
+    varname: str, filename: str, nx: int, ny: int, nz: int
+) -> "np.ndarray[(nz, ny, nx), np.floating]":
     """Get variable from file
 
     Parameters
@@ -125,10 +134,12 @@ def netcdf_read(varname: str, filename: str, nx: int, ny: int, nz: int) -> "np.n
 
 
 def netcdf_overwrite(
-        val: "np.ndarray[(nz, ny, nx), np.floating]",
-        varname: str,
-        filename: str,
-        nx: int, ny: int, nz: int
+    val: "np.ndarray[(nz, ny, nx), np.floating]",
+    varname: str,
+    filename: str,
+    nx: int,
+    ny: int,
+    nz: int,
 ):
     """Overwrite variable values in file
 
@@ -155,7 +166,14 @@ def netcdf_overwrite(
         ncds.variables[varname][:] = val
 
 
-def netcdf_write(val: "np.ndarray[(nz, ny, nx), np.floating]", varname: str, filename: str, nx: int, ny: int, nz: int):
+def netcdf_write(
+    val: "np.ndarray[(nz, ny, nx), np.floating]",
+    varname: str,
+    filename: str,
+    nx: int,
+    ny: int,
+    nz: int,
+):
     """Write a new variable to netCDF file
 
     If variable already exists, call :py:func:`netcdf_overwrite`
@@ -181,12 +199,17 @@ def netcdf_write(val: "np.ndarray[(nz, ny, nx), np.floating]", varname: str, fil
     FIXME: Add docs.
     """
     with netCDF4.Dataset(filename, "a") as ncds:
-        old_last_var_name = b"".join(ncds.variables["field_names"][-1, :]).strip().decode("ascii")
-        old_last_var = ncds.variables[ncds.variables[old_last_var_name])
-        new_var = ncds.createVariable(varname, old_last_var.dtype, old_last_var.dimensions)
+        old_last_var_name = (
+            b"".join(ncds.variables["field_names"][-1, :]).strip().decode("ascii")
+        )
+        old_last_var = ncds.variables[old_last_var_name]
+        new_var = ncds.createVariable(
+            varname, old_last_var.dtype, old_last_var.dimensions
+        )
         for att_name in old_last_var.ncattrs():
             new_var.setncattr(att_name, old_last_var.getncattr(att_name))
         new_var[:] = val
+
 
 def varinq(varname: str, filename: str) -> bool:
     """Check whether variable already exists in file

@@ -7,9 +7,11 @@ import circ
 import const
 import netcdfio
 
-C_SCALE = 1.e-4
+C_SCALE = 1.0e-4
 
-NAMELIST_PARSER = configparser.ConfigParser(inline_comment_prefixes="!", comment_prefixes="!")
+NAMELIST_PARSER = configparser.ConfigParser(
+    inline_comment_prefixes="!", comment_prefixes="!"
+)
 NAMELIST_PARSER.SECTCRE = re.compile(r"\s*&(?P<header>\w+)\s*")
 
 if __name__ == "__main__":
@@ -24,7 +26,8 @@ if __name__ == "__main__":
     # namelist
     IN_FILES = [
         ast.literal_eval(val)[0]
-        for key, val in parser["inputparms"].items() if key.startswith("infile")
+        for key, val in parser["inputparms"].items()
+        if key.startswith("infile")
     ]
 
     for in_file_name in IN_FILES:

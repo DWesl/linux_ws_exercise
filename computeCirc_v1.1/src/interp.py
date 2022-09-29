@@ -7,19 +7,19 @@ import const
 
 
 def interp(
-        x: float,
-        y: float,
-        z: float,
-        xgrid: "np.ndarray[(nx,), np.floating]",
-        ygrid: "np.ndarray[(ny,), np.floating]",
-        zgrid: "np.ndarray[(nz,), np.floating]",
-        dx: float,
-        dy: float,
-        dz: float,
-        var: "np.ndarray[(nx, ny, nz), np.floating]",
-        nx: int,
-        ny: int,
-        nz: int,
+    x: float,
+    y: float,
+    z: float,
+    xgrid: "np.ndarray[(nx,), np.floating]",
+    ygrid: "np.ndarray[(ny,), np.floating]",
+    zgrid: "np.ndarray[(nz,), np.floating]",
+    dx: float,
+    dy: float,
+    dz: float,
+    var: "np.ndarray[(nx, ny, nz), np.floating]",
+    nx: int,
+    ny: int,
+    nz: int,
 ) -> float:
     """Interpolate field var to location x, y, z.
 
@@ -73,11 +73,11 @@ def interp(
     if np.all(var[sx : sx + 2, sy : sy + 2, sz : sy + 2] != const.MISSING_VAL):
         interpvar = np.sum(
             functools.reduce(
-                np.multiply
+                np.multiply,
                 np.array([[[1 - c1]], [[c1]]]),
                 np.array([[[1 - c2], [c2]]]),
                 np.array([[[1 - c3, c3]]]),
-                var[sx : sx + 2, sy : sy + 2, sz : sz + 2]
+                var[sx : sx + 2, sy : sy + 2, sz : sz + 2],
             )
         )
     else:
