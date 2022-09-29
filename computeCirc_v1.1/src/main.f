@@ -3,6 +3,8 @@
 
       program computeC
 
+      use circ, only : getcirc
+      use netcdfio
       implicit none
 
       include '../include/const.h'

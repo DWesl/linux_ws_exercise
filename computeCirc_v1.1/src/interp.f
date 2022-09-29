@@ -1,4 +1,9 @@
-      subroutine interp(x,y,z,xgrid,ygrid,zgrid,dx,dy,dz,
+      module interp
+      implicit none
+      private
+      public :: interp3
+      contains
+      subroutine interp3(x,y,z,xgrid,ygrid,zgrid,dx,dy,dz,
      >                  var,nx,ny,nz,interpvar)
 
       implicit none
@@ -56,5 +61,4 @@
 
       return
       end
-
-
+      end module interp

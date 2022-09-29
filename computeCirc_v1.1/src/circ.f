@@ -1,9 +1,15 @@
+      module circ
+      implicit none
+      private
+      public :: getcirc
+      contains
 !--------------------------------------------------------------------
 ! This subroutine computes circulation.
 
 
       subroutine getcirc(u,v,x,y,z,dx,dy,dz,nx,ny,nz,radius,circ)
 
+      use interp, only : interp3
       implicit none
 
       include '../include/const.h'
@@ -45,8 +51,8 @@
            metangle = metangle*pi/180.
            xtmp = x(i) + radius*sin(angle)
            ytmp = y(j) + radius*cos(angle)
-           call interp(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,u,nx,ny,nz,utmp)
-           call interp(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,v,nx,ny,nz,vtmp)
+           call interp3(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,u,nx,ny,nz,utmp)
+           call interp3(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,v,nx,ny,nz,vtmp)
            if (utmp.eq.missing_val .or. vtmp.eq.missing_val) then
              badflag = 1
              exit
@@ -62,10 +68,9 @@
 
         enddo
         enddo
- 
+
       enddo
 
       return
       end
-
-
+      end module circ

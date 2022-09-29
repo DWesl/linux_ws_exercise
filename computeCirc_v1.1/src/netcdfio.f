@@ -1,3 +1,11 @@
+      module netcdfio
+      use netcdf
+      implicit none
+      private
+      public :: getsize, getgridinfo
+      public :: getvarnames, varinq
+      public :: netcdf_read, netcdf_overwrite, netcdf_write
+      contains
 !----------------------------------------------------------------------
 ! This subroutine returns nx, ny, nz, and nv from a netcdf file
 
@@ -516,3 +524,5 @@
 
       return
       end
+
+      end module netcdfio
