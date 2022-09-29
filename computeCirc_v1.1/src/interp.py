@@ -1,7 +1,7 @@
+"""3-D interpolation function."""
 from functools import reduce
 
 import numpy as np
-import numpy.typing as npt
 
 import const
 
@@ -10,13 +10,13 @@ def interp(
     x: float,
     y: float,
     z: float,
-    xgrid: "np.ndarray[(nx,), np.floating]",
-    ygrid: "np.ndarray[(ny,), np.floating]",
-    zgrid: "np.ndarray[(nz,), np.floating]",
+    xgrid: "np.ndarray[(nx,), np.floating]",  # noqa: F821
+    ygrid: "np.ndarray[(ny,), np.floating]",  # noqa: F821
+    zgrid: "np.ndarray[(nz,), np.floating]",  # noqa: F821
     dx: float,
     dy: float,
     dz: float,
-    var: "np.ndarray[(nx, ny, nz), np.floating]",
+    var: "np.ndarray[(nx, ny, nz), np.floating]",  # noqa: F821
     nx: int,
     ny: int,
     nz: int,
@@ -72,7 +72,7 @@ def interp(
 
     if np.all(var[sx : sx + 2, sy : sy + 2, sz : sy + 2] != const.MISSING_VAL):
         interpvar = np.sum(
-            functools.reduce(
+            reduce(
                 np.multiply,
                 np.array([[[1 - c1]], [[c1]]]),
                 np.array([[[1 - c2], [c2]]]),

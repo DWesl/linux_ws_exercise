@@ -1,3 +1,4 @@
+"""Calculate curculation for a wind field."""
 import math
 
 import numpy as np
@@ -9,11 +10,11 @@ N_AZIMUTHS = 72
 
 
 def getcirc(
-    u: "np.ndarray[(nz, ny, nx), np.floating]",
-    v: "np.ndarray[(nz, ny, nx), np.floating]",
-    x: "np.ndarray[(nx,), np.floating]",
-    y: "np.ndarray[(ny,), np.floating]",
-    z: "np.ndarray[(nz,), np.floating]",
+    u: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
+    v: "np.ndarray[(nz, ny, nx), np.floating]",  # noqa: F821
+    x: "np.ndarray[(nx,), np.floating]",  # noqa: F821
+    y: "np.ndarray[(ny,), np.floating]",  # noqa: F821
+    z: "np.ndarray[(nz,), np.floating]",  # noqa: F821
     dx: float,
     dy: float,
     dz: float,
@@ -21,15 +22,53 @@ def getcirc(
     ny: int,
     nz: int,
     radius: float,
-) -> "np.ndarray[(nz, ny, nx), np.floating]":
+) -> "np.ndarray[(nz, ny, nx), np.floating]":  # noqa: F821
+    """Calculate circulation around each point.
+
+    Uses circles of the given radius for calculating circulation
+
+    Parameters
+    ----------
+    u : "np.ndarray[(nz, ny, nx), np.floating]"
+        x component of wind
+    v : "np.ndarray[(nz, ny, nx), np.floating]"
+        y component of wind
+    x : "np.ndarray[(nx,), np.floating]"
+        x coordinates of grid
+    y : "np.ndarray[(ny,), np.floating]"
+        y coordinates of grid
+    z : "np.ndarray[(nz,), np.floating]"
+        z coordinates
+    dx : float
+        grid spacing in x direction
+    dy : float
+        grid spacing in y direction
+    dz : float
+        grid spacing in z direction
+    nx : int
+        number of points in x direction
+    ny : int
+        number of points in y direction
+    nz : int
+        number of points in z direction
+    radius : float
+        radius of circle around which to calculate circulation
+
+    Returns
+    -------
+    "np.ndarray[(nz, ny, nx), np.floating]"
+        Circulation around each point
+
+    Examples
+    --------
+    FIXME: Add docs.
+    """
     circ = np.full_like(u, const.MISSING_VAL)
-    z_space = math.ceil(radius / dz)
     y_space = math.ceil(radius / dy)
     x_space = math.ceil(radius / dx)
     for k in range(nz - 1):
         for j in range(y_space, ny - y_space):
             for i in range(x_space, nx - x_space):
-                badflag = False
                 sumVt = 0.0
                 angles = np.linspace(0, 2 * const.PI, N_AZIMUTHS + 1)[:-1]
                 xtmps = x[i] + radius * np.cos(angles)
@@ -46,7 +85,6 @@ def getcirc(
                         xtmp, ytmp, z[k], x, y, z, dx, dy, dz, v, nx, ny, nz
                     )
                     if utmp == const.MISSING_VAL or vtmp == const.MISSING_VAL:
-                        badflag = True
                         break
                     sumVt = sumVt + utmp * tan_x + vtmp * tan_y
                 else:

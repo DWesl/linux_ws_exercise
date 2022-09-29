@@ -1,10 +1,10 @@
+"""Calculate circulation for given files."""
 import ast
 import configparser
 import re
 import sys
 
 import circ
-import const
 import netcdfio
 
 C_SCALE = 1.0e-4
@@ -26,23 +26,23 @@ if __name__ == "__main__":
     # namelist
     IN_FILES = [
         ast.literal_eval(val)[0]
-        for key, val in parser["inputparms"].items()
+        for key, val in INPUTPARMS.items()
         if key.startswith("infile")
     ]
 
     for in_file_name in IN_FILES:
-        print("Computing circulation...")
+        print("Computing circulation...")  # noqa: T001
         nx, ny, nz, nv = netcdfio.getsize(in_file_name)
         dx, dy, dz, x, y, z = netcdfio.getgridinfo(in_file_name, nx, ny, nz)
 
-        u = netcdfio.netcdf_read(u_variable, in_file_name, nx, ny, nz)
-        v = netcdfio.netcdf_read(v_variable, in_file_name, nx, ny, nz)
+        u = netcdfio.netcdf_read(U_VARIABLE, in_file_name, nx, ny, nz)
+        v = netcdfio.netcdf_read(V_VARIABLE, in_file_name, nx, ny, nz)
 
-        circ = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, radius)
+        circ = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, RADIUS)
 
         circ = circ * C_SCALE
 
-        print("Done\n\nWriting data to netcdf file")
+        print("Done\n\nWriting data to netcdf file")  # noqa: T001
 
         label = "CIRC"
         istatus = netcdfio.varinq(label, in_file_name)
@@ -51,4 +51,4 @@ if __name__ == "__main__":
         else:
             netcdfio.netcdf_overwrite(circ, label, in_file_name, nx, ny, nz)
 
-        print("Done\n\nOperation completed for", in_file_name, "\n\n")
+        print("Done\n\nOperation completed for", in_file_name, "\n\n")  # noqa: T001
