@@ -35,23 +35,70 @@
 
 !----------------------------------------------------------------------
 ! Open netcdf file.
-    
-      ncid = ncopn(filename, NCNOWRIT, rcode)
-      
+
+      print*,'Opening file'
+c$$$  ncid = ncopn(filename, NCNOWRIT, rcode)
+      rcode = nf90_open(filename, NF90_NOWRITE, ncid)
+      print*,rcode
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to open file; does it exist?'
+      endif
 ! Obtain nx, ny, nz, nv from netcdf file.
 
-      itmp = ncdid(ncid,'x',rcode)
-      call ncdinq(ncid,itmp,tmpstring,nx,rcode)
-      itmp = ncdid(ncid,'y',rcode)
-      call ncdinq(ncid,itmp,tmpstring,ny,rcode)
-      itmp = ncdid(ncid,'z',rcode)
-      call ncdinq(ncid,itmp,tmpstring,nz,rcode)
-      itmp = ncdid(ncid,'fields',rcode)
-      call ncdinq(ncid,itmp,tmpstring,nv,rcode)
+      print*,'Getting dimension sizes'
+c$$$      itmp = ncdid(ncid,'x',rcode)
+      rcode = nf90_inq_dimid(ncid, 'x', itmp)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find x dimension'
+      endif
+c$$$      call ncdinq(ncid,itmp,tmpstring,nx,rcode)
+c$$$  print*,rcode
+      rcode = nf90_inquire_dimension(ncid, itmp, tmpstring, nx)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find length of x dimension'
+      endif
+c$$$      itmp = ncdid(ncid,'y',rcode)
+c$$$      call ncdinq(ncid,itmp,tmpstring,ny,rcode)
+c$$$      print*,rcode
+      rcode = nf90_inq_dimid(ncid, 'y', itmp)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find y dimension'
+      endif
+      rcode = nf90_inquire_dimension(ncid, itmp, tmpstring, ny)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find length of y dimension'
+      endif
+c$$$      itmp = ncdid(ncid,'z',rcode)
+c$$$      call ncdinq(ncid,itmp,tmpstring,nz,rcode)
+c$$$      print*,rcode
+      rcode = nf90_inq_dimid(ncid, 'z', itmp)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find z dimension'
+      endif
+      rcode = nf90_inquire_dimension(ncid, itmp, tmpstring, nz)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find length of z dimension'
+      endif
+
+c$$$      itmp = ncdid(ncid,'fields',rcode)
+c$$$      call ncdinq(ncid,itmp,tmpstring,nv,rcode)
+c$$$      print*,rcode
+      rcode = nf90_inq_dimid(ncid, 'fields', itmp)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find fields dimension'
+      endif
+      rcode = nf90_inquire_dimension(ncid, itmp, tmpstring, nv)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to find length of fields dimension'
+      endif
 
 ! Close netcdf file.
 
-      call ncclos(ncid, rcode)
+c$$$  call ncclos(ncid, rcode)
+      rcode = nf90_close(ncid)
+      if (rcode .ne. NF90_NOERR) then
+         print *, 'Failed to close file'
+      endif
 
       return
       end
