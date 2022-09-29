@@ -5,6 +5,7 @@ import numpy.typing as npt
 
 import const
 
+
 def interp(
         x: float,
         y: float,

@@ -1,7 +1,7 @@
 from typing import Tuple
 
-import numpy as np
 import netCDF4
+import numpy as np
 
 
 def getsize(filename: str) -> Tuple[int, int, int, int]:
