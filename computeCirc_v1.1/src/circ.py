@@ -93,7 +93,7 @@ def getcirc(
                         break
                     sumVt = sumVt + utmp * tan_x + vtmp * tan_y
                 else:
-                    circ[k, j, i] = (
+                    circ[..., k, j, i] = (
                         sumVt * (2 * const.PI * radius / N_AZIMUTHS) * const.KM2M
                     )
     return circ

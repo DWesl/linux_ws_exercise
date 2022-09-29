@@ -14,7 +14,12 @@ import netcdfio
 C_SCALE = 1.0e-4
 
 NAMELIST_PARSER = configparser.ConfigParser(
-    inline_comment_prefixes="!", comment_prefixes="!"
+    inline_comment_prefixes="!", comment_prefixes="!",
+    converters={
+        "int": lambda val: int(val.rstrip(",")),
+        "float": lambda val: float(val.rstrip(",")),
+        "string": lambda val: ast.literal_eval(val.rstrip(",")),
+    }
 )
 NAMELIST_PARSER.SECTCRE = re.compile(r"\s*&(?P<header>\w+)\s*")
 
@@ -23,14 +28,14 @@ if __name__ == "__main__":
 
     INPUTPARMS = NAMELIST_PARSER["inputparms"]
     N_FILES = INPUTPARMS.getint("nfiles")
-    U_VARIABLE = ast.literal_eval(INPUTPARMS.get("u_variable"))[0]
-    V_VARIABLE = ast.literal_eval(INPUTPARMS.get("v_variable"))[0]
+    U_VARIABLE = INPUTPARMS.getstring("u_variable")
+    V_VARIABLE = INPUTPARMS.getstring("v_variable")
     RADIUS = INPUTPARMS.getfloat("radius")
     # Will have to change this if someone uses array notation in their
     # namelist
     IN_FILES = [
-        ast.literal_eval(val)[0]
-        for key, val in INPUTPARMS.items()
+        INPUTPARMS.getstring(key)
+        for key in INPUTPARMS.keys()
         if key.startswith("infile")
     ]
 

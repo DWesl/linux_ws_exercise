@@ -79,7 +79,7 @@ def interp(
     c3 = (z - zgrid[sz]) / dz
 
     interpvar: float = const.MISSING_VAL
-    if np.all(var[sx : sx + 2, sy : sy + 2, sz : sy + 2] != const.MISSING_VAL):
+    if np.all(var[sz : sz + 2, sy : sy + 2, sx : sx + 2] != const.MISSING_VAL):
         interpvar = np.sum(
             reduce(
                 np.multiply,
@@ -87,7 +87,7 @@ def interp(
                     np.array([[[1 - c1]], [[c1]]]),
                     np.array([[[1 - c2], [c2]]]),
                     np.array([[[1 - c3, c3]]]),
-                    var[sx : sx + 2, sy : sy + 2, sz : sz + 2],
+                    var[..., sz : sz + 2, sy : sy + 2, sx : sx + 2],
                 ],
             )
         )
