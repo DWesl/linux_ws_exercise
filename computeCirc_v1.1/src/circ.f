@@ -10,11 +10,11 @@
 
 ! Passed variables
 
-      integer nx, ny, nz
-      real radius, dx, dy, dz
-      real x(nx), y(ny), z(nz)
-      real u(nx,ny,nz), v(nx,ny,nz)
-      real circ(nx,ny,nz)
+      integer, intent(in) :: nx, ny, nz
+      real, intent(in) :: radius, dx, dy, dz
+      real, intent(in) :: x(nx), y(ny), z(nz)
+      real, intent(in) :: u(nx,ny,nz), v(nx,ny,nz)
+      real, intent(out) :: circ(nx,ny,nz)
 
 ! Local variables
  

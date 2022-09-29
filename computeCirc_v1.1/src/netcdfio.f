@@ -9,11 +9,11 @@
 
 ! Passed variables
 
-      integer nx, ny, nz        ! number of x, y, and z grid points
+      integer, intent(out) :: nx, ny, nz        ! number of x, y, and z grid points
 
-      integer nv                ! number of variables
+      integer, intent(out) :: nv                ! number of variables
 
-      character filename*100    ! netcdf filename
+      character(len=100), intent(in) :: filename    ! netcdf filename
 
 ! Local variables
 
@@ -23,7 +23,7 @@
  
       integer itmp                    ! temporary integer value
       
-      character tmpstring*(MAXNCNAM)  ! temporary character string
+      character(len=MAXNCNAM) tmpstring  ! temporary character string
 
 !----------------------------------------------------------------------
 ! Open netcdf file.
@@ -66,13 +66,13 @@
 
 ! Passed variables
 
-      integer nx, ny, nz        ! number of x, y, and z grid points
+      integer, intent(in) :: nx, ny, nz        ! number of x, y, and z grid points
 
-      real dx, dy, dz           ! x, y, z grid spacing
+      real, intent(out) :: dx, dy, dz           ! x, y, z grid spacing
  
-      real x(nx), y(ny), z(nz)  ! x, y, z grid point coordinates
+      real, intent(out) :: x(nx), y(ny), z(nz)  ! x, y, z grid point coordinates
 
-      character filename*100    ! netcdf filename
+      character(len=100), intent(in) :: filename    ! netcdf filename
 
 ! Local variables
 
@@ -135,11 +135,11 @@
 
 ! Passed variables
 
-      integer nv                      ! number of variables
+      integer, intent(in) :: nv                      ! number of variables
 
-      character filename*100          ! netcdf filename
+      character(len=100), intent(in) :: filename     ! netcdf filename
  
-      character varname(nv)*8         ! variable name
+      character(len=8), dimension(nv), intent(out) :: varname  ! variable name
 
 ! Local variables
 
@@ -199,13 +199,13 @@
 
 ! Passed variables
 
-      integer nx, ny, nz        ! number of x, y, and z grid points
+      integer, intent(in) :: nx, ny, nz        ! number of x, y, and z grid points
 
-      character filename*100    ! netcdf filename
+      character(len=100), intent(in) :: filename ! netcdf filename
  
-      character varname*8       ! variable name for which data are requested
+      character(len=8), intent(in) :: varname    ! variable name for which data are requested
  
-      real val(nx,ny,nz)        ! value of variable requested
+      real, intent(out) val(nx,ny,nz)        ! value of variable requested
 
 ! Local variables
 
@@ -267,13 +267,13 @@
 
 ! Passed variables            
 
-      integer nx, ny, nz      ! number of x, y, and z grid points
+      integer, intent(in) :: nx, ny, nz      ! number of x, y, and z grid points
       
-      character filename*100  ! netcdf filename
+      character(len=100), intent(in) :: filename  ! netcdf filename
  
-      real val(nx,ny,nz)      ! value of variable to be written
+      real, dimension(nx, ny, nz), intent(in) :: val  ! value of variable to be written
 
-      character varname*8     ! name of variable to be written
+      character(len=8), intent(in) :: varname     ! name of variable to be written
 
 ! Local variables
 
@@ -337,13 +337,13 @@
 
 ! Passed variables
 
-      integer nx, ny, nz      ! number of x, y, and z grid points
+      integer, intent(in) :: nx, ny, nz      ! number of x, y, and z grid points
 
-      character filename*100  ! netcdf filename
+      character(len=100), intent(in) :: filename  ! netcdf filename
 
-      real val(nx,ny,nz)      ! value of variable to be written
+      real, dimension(nx, ny, nz), intent(in) :: val  ! value of variable to be written
 
-      character varname*8     ! name of variable to be written
+      character(len=8), intent(in) :: varname     ! name of variable to be written
 
 ! Local variables
 
@@ -458,12 +458,12 @@
 
 ! Passed variables
 
-      integer rstatus           ! 0 if varname is not present in filename
-                                ! 1 if varname is present in filename
+      integer, intent(out) :: rstatus  ! 0 if varname is not present in filename
+                                       ! 1 if varname is present in filename
 
-      character filename*100    ! netcdf filename
+      character(len=100), intent(in) :: filename  ! netcdf filename
 
-      character varname*8       ! variable name
+      character(len=8), intent(in) :: varname     ! variable name
 
 ! Local variables
 

@@ -5,15 +5,17 @@
 
       include '../include/const.h'
 
-      integer nx, ny, nz      ! dimensions of gridded dataset
-      real var(nx,ny,nz)      ! gridded dataset
-      real xgrid(nx), ygrid(ny), zgrid(nz)    ! x, y, z coordinates of grid points
-      real dx, dy, dz         ! grid spacing (assumed uniform!)
-      real x, y, z            ! coordinates of location to which var will be interpolated 
+      integer, intent(in) :: nx, ny, nz      ! dimensions of gridded dataset
+      real, intent(in) :: var(nx,ny,nz)      ! gridded dataset
+      real, intent(in) :: xgrid(nx), ygrid(ny), zgrid(nz)    ! x, y, z coordinates of grid points
+      real, intent(in) :: dx, dy, dz         ! grid spacing (assumed uniform!)
+      real, intent(in) :: x, y, z            ! coordinates of location
+                                             ! to which var will be
+                                             ! interpolated
       integer i, j, k         ! indices
       integer sx, sy, sz      ! indices of gridpoint located immediately southwest and below (x,y,z)
       real c1, c2, c3         ! factors used in space interpolation
-      real interpvar          ! value of var interpolated to position x,y,z
+      real, intent(out) :: interpvar          ! value of var interpolated to position x,y,z
 
 
 ! Find indices of gridpt located to the immediate southwest and below the parcel...
