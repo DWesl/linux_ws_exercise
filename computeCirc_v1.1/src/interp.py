@@ -88,7 +88,7 @@ def interp(
                     np.array([[[1 - c2], [c2]]]),
                     np.array([[[1 - c3, c3]]]),
                     var[sx : sx + 2, sy : sy + 2, sz : sz + 2],
-                ]
+                ],
             )
         )
     return interpvar

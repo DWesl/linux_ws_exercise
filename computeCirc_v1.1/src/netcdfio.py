@@ -45,7 +45,7 @@ def getgridinfo(
     float,
     "npt.NDArray[np.floating]",  # noqa: F821
     "npt.NDArray[np.floating]",  # noqa: F821
-    "npt.NDArray[np.floating]"  # noqa: F821
+    "npt.NDArray[np.floating]",  # noqa: F821
 ]:
     """Get grid information from file.
 
@@ -79,9 +79,7 @@ def getgridinfo(
     return dx, dy, dz, x, y, z
 
 
-def getvarnames(
-    filename: str, nv: int
-) -> "npt.NDArray[np.unicode_]":  # noqa: F821
+def getvarnames(filename: str, nv: int) -> "npt.NDArray[np.unicode_]":  # noqa: F821
     """Get a list of variables in a netCDF file.
 
     Parameters
@@ -93,7 +91,7 @@ def getvarnames(
 
     Returns
     -------
-    "np.ndarray[(nv,), np.unicode_]"
+    np.ndarray[(nv,), np.unicode_]
         Variable names
 
     Examples
