@@ -6,7 +6,7 @@
       implicit none
 
       include '../include/const.h'
-	
+
       integer i, j, k, n, nx, ny, nz, nv
       integer nfiles, istatus
 

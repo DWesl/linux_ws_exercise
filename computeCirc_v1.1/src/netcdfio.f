@@ -205,7 +205,7 @@
  
       character(len=8), intent(in) :: varname    ! variable name for which data are requested
  
-      real, intent(out) val(nx,ny,nz)        ! value of variable requested
+      real, intent(out), dimension(nx, ny, nz) :: val  ! value of variable requested
 
 ! Local variables
 
