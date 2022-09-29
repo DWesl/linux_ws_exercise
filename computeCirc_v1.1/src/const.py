@@ -1,4 +1,8 @@
-"""Constants for use in calculating circulation."""
+"""Constants for use in calculating circulation.
+
+It might be useful to pull a few other constants here from other
+files.
+"""
 import math
 
 MISSING_VAL: float = -32768

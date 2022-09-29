@@ -1,4 +1,8 @@
-"""Calculate curculation for a wind field."""
+"""Calculate curculation for a wind field.
+
+This is calculated on a circle around each point in the domain where
+the circle will fit.
+"""
 import math
 
 import numpy as np

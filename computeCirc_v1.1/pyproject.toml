@@ -3,3 +3,7 @@ profile = "black"
 src_paths = ["src"]
 
 [tool.black]
+
+[tool.pydocstringformatter]
+write = true
+style = ["pep257", "numpydoc"]

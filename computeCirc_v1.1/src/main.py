@@ -1,4 +1,8 @@
-"""Calculate circulation for given files."""
+"""Calculate circulation for given files.
+
+Read list of files and radius of circles for circulation calculations
+from standard input.
+"""
 import ast
 import configparser
 import re

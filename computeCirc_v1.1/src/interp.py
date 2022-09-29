@@ -1,4 +1,12 @@
-"""3-D interpolation function."""
+"""3-D interpolation function.
+
+This could be a simple wrapper around
+:py:func:`scipy.interpolate.interpn`, but I don't know if that
+dependency is something I want to add.
+
+It might be possible to rewrite as a list of calls to
+:py:func:`numpy.interp`, but that's tricky.
+"""
 from functools import reduce
 
 import numpy as np
@@ -60,7 +68,6 @@ def interp(
     Examples
     --------
     FIXME: Add docs.
-
     """
     sx = int((x - xgrid[0]) / dx)
     sy = int((y - ygrid[0]) / dy)

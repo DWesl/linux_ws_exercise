@@ -1,4 +1,7 @@
-"""Functions for interacting with netCDF files."""
+"""Functions for interacting with netCDF files.
+
+Simple wrappers around netCDF4 calls, mostly.
+"""
 from typing import Tuple
 
 import netCDF4
@@ -240,7 +243,6 @@ def varinq(varname: str, filename: str) -> bool:
     Examples
     --------
     FIXME: Add docs.
-
     """
     # field_names = getvarnames(filename)
     # return np.in1d(varname, field_names)[0]
