@@ -7,9 +7,9 @@ import math
 
 import numpy as np
 import numpy.typing as npt
+from scipy.interpolate import interpn
 
 import const
-import interp
 
 N_AZIMUTHS = 72
 
@@ -68,32 +68,57 @@ def getcirc(
     --------
     FIXME: Add docs.
     """
-    circ = np.full_like(u, const.MISSING_VAL)
     y_space = math.ceil(radius / dy)
     x_space = math.ceil(radius / dx)
-    for k in range(nz - 1):
-        for j in range(y_space, ny - y_space):
-            for i in range(x_space, nx - x_space):
-                sumVt = 0.0
-                angles = np.linspace(0, 2 * const.PI, N_AZIMUTHS + 1)[:-1]
-                xtmps = x[i] + radius * np.cos(angles)
-                ytmps = y[j] + radius * np.sin(angles)
-                tangents_x = -np.sin(angles)
-                tangents_y = np.cos(angles)
-                for xtmp, ytmp, tan_x, tan_y in zip(
-                    xtmps, ytmps, tangents_x, tangents_y
-                ):
-                    utmp = interp.interp(
-                        xtmp, ytmp, z[k], x, y, z, dx, dy, dz, u, nx, ny, nz
-                    )
-                    vtmp = interp.interp(
-                        xtmp, ytmp, z[k], x, y, z, dx, dy, dz, v, nx, ny, nz
-                    )
-                    if utmp == const.MISSING_VAL or vtmp == const.MISSING_VAL:
-                        break
-                    sumVt = sumVt + utmp * tan_x + vtmp * tan_y
-                else:
-                    circ[..., k, j, i] = (
-                        sumVt * (2 * const.PI * radius / N_AZIMUTHS) * const.KM2M
-                    )
+    angles = np.linspace(0, 2 * const.PI, N_AZIMUTHS + 1)[:-1]
+    circle_displacement_x = radius * np.cos(angles)
+    circle_displacement_y = radius * np.sin(angles)
+    tangents_x = -np.sin(angles)
+    tangents_y = np.cos(angles)
+    ds_x = tangents_x * (2 * const.PI * radius / N_AZIMUTHS) * const.KM2M
+    ds_y = tangents_y * (2 * const.PI * radius / N_AZIMUTHS) * const.KM2M
+
+    y_grid, x_grid = np.meshgrid(y, x, indexing="ij")
+    interpolation_y = y_grid[..., np.newaxis] + circle_displacement_y
+    interpolation_x = x_grid[..., np.newaxis] + circle_displacement_x
+
+    interpolation_indexer = (slice(y_space, -y_space), slice(x_space, -x_space))
+    interpolation_coords = np.stack([interpolation_y, interpolation_x], 3)
+
+    four_dim_u = True
+    if u.ndim == 3:
+        four_dim_u = False
+        u = u[np.newaxis, ...]
+        v = v[np.newaxis, ...]
+
+    u = np.where(u == const.MISSING_VAL, np.nan, u)
+    v = np.where(v == const.MISSING_VAL, np.nan, v)
+
+    circ = np.full_like(u, const.MISSING_VAL)
+    for u_t_slice, v_t_slice, circ_t_slice in zip(u, v, circ):
+        print("Starting t slice")
+        for u_tz_slice, v_tz_slice, circ_tz_slice in zip(
+            u_t_slice, v_t_slice, circ_t_slice
+        ):
+            print("Starting z slice")
+            integrand_u = interpn(
+                (y, x),
+                u_tz_slice,
+                interpolation_coords[interpolation_indexer],
+                "linear",
+            )
+            integrand_v = interpn(
+                (y, x),
+                v_tz_slice,
+                interpolation_coords[interpolation_indexer],
+                "linear",
+            )
+
+            integral = np.sum(integrand_u * ds_x + integrand_v * ds_y, 2)
+            circ_tz_slice[interpolation_indexer] = integral
+
+    if not four_dim_u:
+        circ = circ[0, ...]
+
+    circ = np.nan_to_num(circ, nan=const.MISSING_VAL)
     return circ
