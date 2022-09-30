@@ -8,6 +8,7 @@ import math
 import numpy as np
 import numpy.typing as npt
 from scipy.interpolate import interpn
+import numexpr as ne
 
 import const
 
@@ -114,8 +115,10 @@ def getcirc(
                 "linear",
             )
 
-            integral = np.sum(integrand_u * ds_x + integrand_v * ds_y, 2)
-            circ_tz_slice[interpolation_indexer] = integral
+            ne.evaluate(
+                "sum(integrand_u * ds_x + integrand_v * ds_y, 2)",
+                out=circ_tz_slice[interpolation_indexer]
+            )
 
     if not four_dim_u:
         circ = circ[0, ...]
