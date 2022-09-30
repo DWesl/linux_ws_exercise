@@ -5,12 +5,12 @@ the circle will fit.
 """
 import math
 
+import numexpr as ne
 import numpy as np
 import numpy.typing as npt
-from scipy.interpolate import interpn
-import numexpr as ne
 
 import const
+import interp
 
 N_AZIMUTHS = 72
 
@@ -84,7 +84,6 @@ def getcirc(
     interpolation_x = x_grid[..., np.newaxis] + circle_displacement_x
 
     interpolation_indexer = (slice(y_space, -y_space), slice(x_space, -x_space))
-    interpolation_coords = np.stack([interpolation_y, interpolation_x], 3)
 
     four_dim_u = True
     if u.ndim == 3:
@@ -102,22 +101,34 @@ def getcirc(
             u_t_slice, v_t_slice, circ_t_slice
         ):
             print("Starting z slice")
-            integrand_u = interpn(
-                (y, x),
+            integrand_u = interp.interp2(
+                interpolation_x[interpolation_indexer],
+                interpolation_y[interpolation_indexer],
+                x[0],
+                y[0],
+                dx,
+                dy,
                 u_tz_slice,
-                interpolation_coords[interpolation_indexer],
-                "linear",
             )
-            integrand_v = interpn(
-                (y, x),
+            integrand_v = interp.interp2(
+                interpolation_x[interpolation_indexer],
+                interpolation_y[interpolation_indexer],
+                x[0],
+                y[0],
+                dx,
+                dy,
                 v_tz_slice,
-                interpolation_coords[interpolation_indexer],
-                "linear",
             )
 
             ne.evaluate(
                 "sum(integrand_u * ds_x + integrand_v * ds_y, 2)",
-                out=circ_tz_slice[interpolation_indexer]
+                local_dict={
+                    "integrand_u": integrand_u,
+                    "integrand_v": integrand_v,
+                    "ds_x": ds_x,
+                    "ds_y": ds_y,
+                },
+                out=circ_tz_slice[interpolation_indexer],
             )
 
     if not four_dim_u:
