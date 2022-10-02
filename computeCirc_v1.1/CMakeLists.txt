@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.10)
+enable_language(Fortran)
+project(computeCirc VERSION 1.1 LANGUAGES Fortran)
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_PACKAGE_VERSION_MAJOR "${computeCirc_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${computeCirc_VERSION_MINOR}")
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_PACKAGE_CHECKSUM "SHA512")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+include(CPack)
+
+add_executable(computeCirc src/main.f src/netcdfio.f src/circ.f90 src/interp.f90)
+target_link_libraries(computeCirc netcdff netcdf hdf5 z)
+target_include_directories(computeCirc PRIVATE /usr/include)
+install(TARGETS computeCirc DESTINATION bin)
