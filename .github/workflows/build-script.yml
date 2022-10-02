@@ -22,5 +22,5 @@ jobs:
       run: sudo apt-get install libnetcdf-dev
     
     - name: Build script
-      run: ./make_computeC
+      run: bash -eo pipefail ./make_computeC
       working-directory: ${{github.workspace}}/computeCirc_v1.1
