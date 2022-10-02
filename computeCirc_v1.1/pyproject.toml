@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=42",
+    "numpy",
     "scikit-build",
     "cmake; sys_platform!='Cygwin'",
     "ninja; sys_platform!='Cygwin'",
