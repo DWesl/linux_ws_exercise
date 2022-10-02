@@ -1,0 +1,38 @@
+name: Autotools CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install netcdf
+      run: sudo apt-get install libnetcdff-dev
+
+    - name: Autoreconf
+      run: autoreconf --force --install
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+
+    - name: configure
+      run: ./configure
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+
+    - name: make
+      run: make
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+
+    - name: make check
+      run: make check
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+
+    - name: make distcheck
+      run: make distcheck
+      working-directory: ${{github.workspace}}/computeCirc_v1.1

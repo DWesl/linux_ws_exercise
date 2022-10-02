@@ -263,8 +263,11 @@ CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 
-### My files to ignore
+### My files to ignore ###
 cmake-build/
-build-aux/
 my-computeC.input
 .f2py_f2cmap
+
+# Autotools-generated files
+config.h.in
+build-aux/
