@@ -11,7 +11,7 @@ include_directories(${Python_NumPy_INCLUDE_DIR} ${Python_INCLUDE_DIR})
 set(f2py_module_name "_f_circ")
 set(
     fortran_src_file
-    "${CMAKE_CURRENT_SOURCE_DIR}/circ.f90" "${CMAKE_CURRENT_SOURCE_DIR}/interp.f90"
+    "${CMAKE_CURRENT_SOURCE_DIR}/interp.f90" "${CMAKE_CURRENT_SOURCE_DIR}/circ.f90"
 )
 
 set(
