@@ -1,0 +1,19 @@
+name: Build script CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build script
+      run: ./make_computeC
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
