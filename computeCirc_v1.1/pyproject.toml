@@ -1,3 +1,12 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "scikit-build",
+    "cmake; sys_platform!='Cygwin'",
+    "ninja; sys_platform!='Cygwin'",
+]
+build_backend = "setuptools.build_meta"
+
 [tool.isort]
 profile = "black"
 src_paths = ["src"]

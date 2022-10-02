@@ -17,7 +17,7 @@ Makefile.in
 autom4te.cache
 /autoscan.log
 /autoscan-*.log
-/aclocal.m4
+aclocal.m4
 /compile
 /config.cache
 /config.guess
@@ -256,3 +256,15 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
+
+# scikit-build
+_skbuild/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
+### My files to ignore
+cmake-build/
+build-aux/
+my-computeC.input
+.f2py_f2cmap

@@ -18,17 +18,19 @@
 
       integer, intent(in) :: nx, ny, nz
       real, intent(in) :: radius, dx, dy, dz
-      real, intent(in) :: x(nx), y(ny), z(nz)
-      real, intent(in) :: u(nx,ny,nz), v(nx,ny,nz)
-      real, intent(out) :: circ(nx,ny,nz)
+      real, dimension(nx), intent(in) :: x
+      real, dimension(ny), intent(in) :: y
+      real, dimension(nz), intent(in) :: z
+      real, dimension(nx, ny, nz), intent(in) :: u, v
+      real, dimension(nx, ny, nz), intent(out) :: circ
 
 ! Local variables
  
       integer i, j, k, m
       real utmp, vtmp, angle, metangle, sumVt, incr
       real xtmp, ytmp
-      integer nazimuths, badflag
-      parameter (nazimuths = 72)
+      integer badflag
+      integer, parameter :: nazimuths = 72
 
 !--------------------------------------------------------------------      
 
@@ -54,11 +56,11 @@
            call interp3(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,u,nx,ny,nz,utmp)
            call interp3(xtmp,ytmp,z(k),x,y,z,dx,dy,dz,v,nx,ny,nz,vtmp)
            if (utmp.eq.missing_val .or. vtmp.eq.missing_val) then
-             badflag = 1
-             exit
+              badflag = 1
+              exit
            else
-             sumVt = sumVt - utmp*sin(metangle)
-     >                     + vtmp*cos(metangle)
+              sumVt = sumVt - utmp*sin(metangle) &
+     &                      + vtmp*cos(metangle)
            endif
          enddo
         
@@ -72,5 +74,5 @@
       enddo
 
       return
-      end
+      end subroutine getcirc
       end module circ
