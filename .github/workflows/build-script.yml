@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash -eo pipefail -o igncr "{0}"
+        shell: bash -eo pipefail "{0}"
 
 
     steps:
