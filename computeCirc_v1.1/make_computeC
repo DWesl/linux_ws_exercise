@@ -6,7 +6,7 @@ NETCDF_LIBS=$(nf-config --flibs)
 "${FC}" -c main.f
 "${FC}" -c circ.f
 "${FC}" -c interp.f
-"${FC}" -c netcdfio.f ${NETCDF_INC}
+"${FC}" -c netcdfio.f -I ../include ${NETCDF_INC}
 "${FC}" -o computeC main.o circ.o interp.o netcdfio.o ${NETCDF_LIBS}
 mv computeC ../bin
 cd ..
