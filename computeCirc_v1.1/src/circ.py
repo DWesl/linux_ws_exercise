@@ -9,8 +9,8 @@ import numexpr as ne
 import numpy as np
 import numpy.typing as npt
 
-import const
-import interp
+from . import const
+from . import interp
 
 N_AZIMUTHS = 72
 
@@ -24,10 +24,11 @@ def getcirc(
     dx: float,
     dy: float,
     dz: float,
-    nx: int,
-    ny: int,
-    nz: int,
     radius: float,
+    nx: int = None,
+    ny: int = None,
+    nz: int = None,
+    out: "npt.NDArray[np.floating]" = None,  # noqa: F821
 ) -> "npt.NDArray[np.floating]":  # noqa: F821
     """Calculate circulation around each point.
 
@@ -51,14 +52,14 @@ def getcirc(
         grid spacing in y direction
     dz : float
         grid spacing in z direction
+    radius : float
+        radius of circle around which to calculate circulation
     nx : int
         number of points in x direction
     ny : int
         number of points in y direction
     nz : int
         number of points in z direction
-    radius : float
-        radius of circle around which to calculate circulation
 
     Returns
     -------
@@ -69,6 +70,9 @@ def getcirc(
     --------
     FIXME: Add docs.
     """
+    if nx is None:
+        nz, ny, nx = u.shape
+
     y_space = math.ceil(radius / dy)
     x_space = math.ceil(radius / dx)
     angles = np.linspace(0, 2 * const.PI, N_AZIMUTHS + 1)[:-1]
@@ -94,7 +98,12 @@ def getcirc(
     u = np.where(u == const.MISSING_VAL, np.nan, u)
     v = np.where(v == const.MISSING_VAL, np.nan, v)
 
-    circ = np.full_like(u, const.MISSING_VAL)
+    if out is None:
+        circ = np.full_like(u, const.MISSING_VAL)
+    else:
+        assert out.shape == u.shape
+        circ = out
+
     for u_t_slice, v_t_slice, circ_t_slice in zip(u, v, circ):
         print("Starting t slice")
         for u_tz_slice, v_tz_slice, circ_tz_slice in zip(
@@ -136,3 +145,18 @@ def getcirc(
 
     circ = np.nan_to_num(circ, nan=const.MISSING_VAL)
     return circ
+
+
+try:
+    from ._f_circ import circ
+    import functools
+
+    @functools.wraps(getcirc)
+    def f_getcirc(u, v, x, y, z, dx, dy, dz, radius, nx, ny, nz):
+        # TODO: stack on time dimension
+        return circ.getcirc(u.T, v.T, x, y, z, dx, dy, dz, radius, nx, ny, nz).T
+
+    py_getcirc = getcirc
+    getcirc = f_getcirc
+except ImportError:
+    pass

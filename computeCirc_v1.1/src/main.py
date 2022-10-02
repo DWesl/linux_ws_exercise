@@ -6,16 +6,20 @@ from standard input.
 """
 import ast
 import configparser
+import io
 import re
 import sys
 
-import circ
-import netcdfio
+import numpy as np
+
+from . import circ
+from . import const
+from . import netcdfio
 
 C_SCALE = 1.0e-4
 
 
-def parse_namelist(fileptr: file) -> configparser.ConfigParser:
+def parse_namelist(fileptr: "io.TextIOBase") -> configparser.ConfigParser:
     """Parse a namelist.
 
     Parameters
@@ -51,7 +55,7 @@ def parse_namelist(fileptr: file) -> configparser.ConfigParser:
     namelist_parser.read_file(fileptr)
     return namelist_parser
 
-def compute_circulation(fileptr: file):
+def compute_circulation(fileptr: io.TextIOBase):
     namelist_parser = parse_namelist(fileptr)
     inputparms = namelist_parser["inputparms"]
     n_files = inputparms.getint("nfiles")
@@ -74,7 +78,10 @@ def compute_circulation(fileptr: file):
         u = netcdfio.netcdf_read(u_variable, in_file_name, nx, ny, nz)
         v = netcdfio.netcdf_read(v_variable, in_file_name, nx, ny, nz)
 
-        circulation = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, radius)
+        circulation = np.full_like(u, const.MISSING_VAL)
+        circulation = circ.getcirc(
+            u[0], v[0], x, y, z, dx, dy, dz, radius, nx, ny, nz  # , circulation
+        )
 
         circulation = circulation * C_SCALE
 

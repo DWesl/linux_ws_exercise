@@ -26,4 +26,4 @@ add_custom_command(
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-install(FILES ${generated_module_file} DESTINATION computeCirc)
+install(FILES ${generated_module_file} DESTINATION "computeCirc")
