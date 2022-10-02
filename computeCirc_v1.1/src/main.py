@@ -78,12 +78,11 @@ def compute_circulation(fileptr: io.TextIOBase):
         u = netcdfio.netcdf_read(u_variable, in_file_name, nx, ny, nz)
         v = netcdfio.netcdf_read(v_variable, in_file_name, nx, ny, nz)
 
-        circulation = np.full_like(u, const.MISSING_VAL)
         circulation = circ.getcirc(
-            u[0], v[0], x, y, z, dx, dy, dz, radius, nx, ny, nz  # , circulation
+            u[0], v[0], x, y, z, dx, dy, dz, radius, nx, ny, nz
         )
 
-        circulation = circulation * C_SCALE
+        circulation *= C_SCALE
 
         print("Done\n\nWriting data to netcdf file")  # noqa: T001
 

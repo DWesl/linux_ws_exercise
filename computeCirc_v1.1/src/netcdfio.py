@@ -91,7 +91,7 @@ def getvarnames(filename: str, nv: int) -> "npt.NDArray[np.unicode_]":  # noqa: 
 
     Returns
     -------
-    np.ndarray[(nv,), np.unicode_]
+    np.ndarray[(nv,), str]
         Variable names
 
     Examples

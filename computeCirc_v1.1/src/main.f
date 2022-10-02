@@ -60,15 +60,15 @@
         call getcirc(u,v,x,y,z,dx,dy,dz,nx,ny,nz,radius,circ)
 
         do i = 1, nx
-        do j = 1, ny
-        do k = 1, nz
+           do j = 1, ny
+              do k = 1, nz
 
-           if ( circ(i,j,k) .ne. missing_val ) then
-             circ(i,j,k) = circ(i,j,k)*Cscale
-           endif
+                 if ( circ(i,j,k) .ne. missing_val ) then
+                    circ(i,j,k) = circ(i,j,k)*Cscale
+                 endif
 
-        enddo
-        enddo 
+              enddo
+           enddo
         enddo
 
 
