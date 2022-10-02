@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """Calculate circulation for given files.
 
 Read list of files and radius of circles for circulation calculations
@@ -13,41 +14,67 @@ import netcdfio
 
 C_SCALE = 1.0e-4
 
-NAMELIST_PARSER = configparser.ConfigParser(
-    inline_comment_prefixes="!", comment_prefixes="!",
-    converters={
-        "int": lambda val: int(val.rstrip(",")),
-        "float": lambda val: float(val.rstrip(",")),
-        "string": lambda val: ast.literal_eval(val.rstrip(",")),
-    }
-)
-NAMELIST_PARSER.SECTCRE = re.compile(r"\s*&(?P<header>\w+)\s*")
 
-if __name__ == "__main__":
-    NAMELIST_PARSER.read_file(sys.stdin)
+def parse_namelist(fileptr: file) -> configparser.ConfigParser:
+    """Parse a namelist.
 
-    INPUTPARMS = NAMELIST_PARSER["inputparms"]
-    N_FILES = INPUTPARMS.getint("nfiles")
-    U_VARIABLE = INPUTPARMS.getstring("u_variable")
-    V_VARIABLE = INPUTPARMS.getstring("v_variable")
-    RADIUS = INPUTPARMS.getfloat("radius")
-    # Will have to change this if someone uses array notation in their
+    Parameters
+    ----------
+    fileptr : file
+        A file containing a namelist
+
+    Returns
+    -------
+    configparser.ConfigParser
+        The parsed namelist
+
+    Examples
+    --------
+    FIXME: Add docs.
+
+    See Also
+    --------
+    f20nml
+        An alternate and more robust namelist parser.
+    """
+    namelist_parser = configparser.ConfigParser(
+        inline_comment_prefixes="!",
+        comment_prefixes="!",
+        converters={
+            "int": lambda val: int(val.rstrip(",")),
+            "float": lambda val: float(val.rstrip(",")),
+            "string": lambda val: ast.literal_eval(val.rstrip(",")),
+        },
+    )
+    namelist_parser.SECTCRE = re.compile(r"\s*&(?P<header>\w+)\s*")
+
+    namelist_parser.read_file(fileptr)
+    return namelist_parser
+
+def compute_circulation(fileptr: file):
+    namelist_parser = parse_namelist(fileptr)
+    inputparms = namelist_parser["inputparms"]
+    n_files = inputparms.getint("nfiles")
+    u_variable = inputparms.getstring("u_variable")
+    v_variable = inputparms.getstring("v_variable")
+    radius = inputparms.getfloat("radius")
+    # will have to change this if someone uses array notation in their
     # namelist
-    IN_FILES = [
-        INPUTPARMS.getstring(key)
-        for key in INPUTPARMS.keys()
+    in_files = [
+        inputparms.getstring(key)
+        for key in inputparms.keys()
         if key.startswith("infile")
     ]
 
-    for in_file_name in IN_FILES:
-        print("Computing circulation...")  # noqa: T001
+    for in_file_name in in_files:
+        print("computing circulation...")  # noqa: t001
         nx, ny, nz, nv = netcdfio.getsize(in_file_name)
         dx, dy, dz, x, y, z = netcdfio.getgridinfo(in_file_name, nx, ny, nz)
 
-        u = netcdfio.netcdf_read(U_VARIABLE, in_file_name, nx, ny, nz)
-        v = netcdfio.netcdf_read(V_VARIABLE, in_file_name, nx, ny, nz)
+        u = netcdfio.netcdf_read(u_variable, in_file_name, nx, ny, nz)
+        v = netcdfio.netcdf_read(v_variable, in_file_name, nx, ny, nz)
 
-        circulation = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, RADIUS)
+        circulation = circ.getcirc(u, v, x, y, z, dx, dy, dz, nx, ny, nz, radius)
 
         circulation = circulation * C_SCALE
 
@@ -61,3 +88,12 @@ if __name__ == "__main__":
             netcdfio.netcdf_overwrite(circulation, label, in_file_name, nx, ny, nz)
 
         print("Done\n\nOperation completed for", in_file_name, "\n\n")  # noqa: T001
+
+
+def main() -> int:
+    compute_circulation(sys.stdin)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
