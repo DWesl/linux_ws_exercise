@@ -3,10 +3,10 @@ cd src
 FC=gfortran
 NETCDF_INC=$(nf-config --fflags)
 NETCDF_LIBS=$(nf-config --flibs)
-"${FC}" -c main.f
-"${FC}" -c circ.f
-"${FC}" -c interp.f
+"${FC}" -c interp.f90
+"${FC}" -c circ.f90
 "${FC}" -c netcdfio.f -I ../include ${NETCDF_INC}
+"${FC}" -c main.f
 "${FC}" -o computeC main.o circ.o interp.o netcdfio.o ${NETCDF_LIBS}
 mv computeC ../bin
 cd ..

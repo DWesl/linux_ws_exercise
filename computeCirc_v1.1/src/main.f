@@ -3,10 +3,12 @@
 
       program computeC
 
+      use circ, only : getcirc
+      use netcdfio
       implicit none
 
       include '../include/const.h'
-	
+
       integer i, j, k, n, nx, ny, nz, nv
       integer nfiles, istatus
 
@@ -27,12 +29,12 @@
       namelist /inputparms/ nfiles, infile, u_variable,
      >                      v_variable, radius
 
-!-----------------------------------------------------------------      
+!-----------------------------------------------------------------
 ! Scale factors
 
       Cscale = 1.e-4
 
-!-----------------------------------------------------------------      
+!-----------------------------------------------------------------
 ! Obtain input parameters
 
       read(5, inputparms)
@@ -50,7 +52,7 @@
         allocate (x(nx),y(ny),z(nz))
         call getgridinfo(infile(n),dx,dy,dz,x,y,z,nx,ny,nz)
 
-        allocate ( u(nx,ny,nz), v(nx,ny,nz), circ(nx,ny,nz) ) 
+        allocate ( u(nx,ny,nz), v(nx,ny,nz), circ(nx,ny,nz) )
 
         call netcdf_read(u,u_variable,infile(n),nx,ny,nz)
         call netcdf_read(v,v_variable,infile(n),nx,ny,nz)
@@ -58,15 +60,15 @@
         call getcirc(u,v,x,y,z,dx,dy,dz,nx,ny,nz,radius,circ)
 
         do i = 1, nx
-        do j = 1, ny
-        do k = 1, nz
+           do j = 1, ny
+              do k = 1, nz
 
-           if ( circ(i,j,k) .ne. missing_val ) then
-             circ(i,j,k) = circ(i,j,k)*Cscale
-           endif
+                 if ( circ(i,j,k) .ne. missing_val ) then
+                    circ(i,j,k) = circ(i,j,k)*Cscale
+                 endif
 
-        enddo
-        enddo 
+              enddo
+           enddo
         enddo
 
 
@@ -85,14 +87,14 @@
         print*,'Done.'
         print*, ' '
         print*,'Operation completed for ', infile(n)
-        print*, ' ' 
+        print*, ' '
         print*, ' '
 
 ! End of main program loop
 
         deallocate (u,v,circ,x,y,z)
 
-      enddo      
+      enddo
 
 !------------------------------------------------------------------
 
@@ -101,7 +103,3 @@
 
 !    END OF MAIN CODE
 !------------------------------------------------------------------
-
-
-      
- 

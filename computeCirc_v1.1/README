@@ -1,5 +1,5 @@
 This code computes circulation at each gridpoint about a radius of
-arbitrary choosing, and then writes the field to the wind synthesis 
+arbitrary choosing, and then writes the field to the wind synthesis
 file as 'CIRC'.  The units are *10^4 m2/s.
 
 Usage:  bin/computeC < input/computeC.input

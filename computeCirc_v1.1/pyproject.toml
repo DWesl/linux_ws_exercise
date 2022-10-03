@@ -1,0 +1,23 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "numpy",
+    "scikit-build",
+    "cmake; sys_platform!='Cygwin'",
+    "ninja; sys_platform!='Cygwin'",
+]
+build_backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+src_paths = ["src"]
+
+[tool.black]
+
+[tool.pydocstringformatter]
+write = true
+style = ["pep257", "numpydoc"]
+
+[tool.mypy]
+# strict = true
+files = "src/*.py"

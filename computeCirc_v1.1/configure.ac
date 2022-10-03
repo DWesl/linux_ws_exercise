@@ -13,6 +13,7 @@ AM_INIT_AUTOMAKE([-Wall foreign dist-xz subdir-objects])
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_F77
+AC_PROG_FC
 
 # Checks for libraries.
 AX_LIB_NETCDF4(serial)
