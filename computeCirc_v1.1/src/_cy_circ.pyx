@@ -25,7 +25,8 @@ def getcirc(
     cdef int x_space = int(ceil(radius / dx))
     cdef float circle_disp_x[N_AZIMUTHS]
     cdef float circle_disp_y[N_AZIMUTHS]
-    cdef float ds_x[N_AZIMUTHS], ds_y[N_AZIMUTHS]
+    cdef float ds_x[N_AZIMUTHS]
+    cdef float ds_y[N_AZIMUTHS]
     cdef bint bad_flag
     cdef float sum_v_ds
     cdef float xtmp, ytmp, utmp, vtmp
