@@ -8,13 +8,13 @@ from standard input.
 import ast
 import configparser
 import io
+import logging
 import re
 import sys
 
-import numpy as np
+from . import circ, netcdfio
 
-from . import circ, const, netcdfio
-
+_LOGGER = logging.getLogger(__name__)
 C_SCALE = 1.0e-4
 
 
@@ -31,14 +31,14 @@ def parse_namelist(fileptr: "io.TextIOBase") -> configparser.ConfigParser:
     configparser.ConfigParser
         The parsed namelist
 
-    Examples
-    --------
-    FIXME: Add docs.
-
     See Also
     --------
     f20nml
         An alternate and more robust namelist parser.
+
+    Examples
+    --------
+    FIXME: Add docs.
     """
     namelist_parser = configparser.ConfigParser(
         inline_comment_prefixes="!",
@@ -56,9 +56,16 @@ def parse_namelist(fileptr: "io.TextIOBase") -> configparser.ConfigParser:
 
 
 def compute_circulation(fileptr: io.TextIOBase):
+    """Compute circulation given config in fileptr.
+
+    Parameters
+    ----------
+    fileptr : io.TextIO
+        The file with the configuration (namelist format).
+    """
     namelist_parser = parse_namelist(fileptr)
     inputparms = namelist_parser["inputparms"]
-    n_files = inputparms.getint("nfiles")
+    # n_files = inputparms.getint("nfiles")
     u_variable = inputparms.getstring("u_variable")
     v_variable = inputparms.getstring("v_variable")
     radius = inputparms.getfloat("radius")
@@ -71,7 +78,7 @@ def compute_circulation(fileptr: io.TextIOBase):
     ]
 
     for in_file_name in in_files:
-        print("computing circulation...")  # noqa: t001
+        _LOGGER.info("computing circulation...")  # noqa: t001
         nx, ny, nz, nv = netcdfio.getsize(in_file_name)
         dx, dy, dz, x, y, z = netcdfio.getgridinfo(in_file_name, nx, ny, nz)
 
@@ -82,7 +89,7 @@ def compute_circulation(fileptr: io.TextIOBase):
 
         circulation *= C_SCALE
 
-        print("Done\n\nWriting data to netcdf file")  # noqa: T001
+        _LOGGER.info("Done\n\nWriting data to netcdf file")  # noqa: T001
 
         label = "CIRC"
         istatus = netcdfio.varinq(label, in_file_name)
@@ -91,11 +98,20 @@ def compute_circulation(fileptr: io.TextIOBase):
         else:
             netcdfio.netcdf_overwrite(circulation, label, in_file_name, nx, ny, nz)
 
-        print("Done\n\nOperation completed for", in_file_name, "\n\n")  # noqa: T001
+        _LOGGER.info(
+            "Done\n\nOperation completed for", in_file_name, "\n\n"
+        )  # noqa: T001
 
 
 def main() -> int:
-    compute_circulation(sys.stdin)
+    """Compute circulation reading config from input.
+
+    Returns
+    -------
+    int
+        0 if successful.
+    """
+    compute_circulation(sys.stdin)  # type: ignore
     return 0
 
 

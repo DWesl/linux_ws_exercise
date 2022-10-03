@@ -4,6 +4,7 @@
 This is calculated on a circle around each point in the domain where the
 circle will fit.
 """
+import logging
 import math
 
 import numexpr as ne
@@ -12,6 +13,7 @@ import numpy.typing as npt
 
 from . import const, interp
 
+_LOGGER = logging.getLogger(__name__)
 N_AZIMUTHS = 72
 
 
@@ -105,11 +107,11 @@ def getcirc(
         circ = out
 
     for u_t_slice, v_t_slice, circ_t_slice in zip(u, v, circ):
-        print("Starting t slice")
+        _LOGGER.info("Starting t slice")
         for u_tz_slice, v_tz_slice, circ_tz_slice in zip(
             u_t_slice, v_t_slice, circ_t_slice
         ):
-            print("Starting z slice")
+            _LOGGER.info("Starting z slice")
             integrand_u = interp.interp2(
                 interpolation_x[interpolation_indexer],
                 interpolation_y[interpolation_indexer],
@@ -154,10 +156,16 @@ try:
 
     @functools.wraps(getcirc)
     def f_getcirc(u, v, x, y, z, dx, dy, dz, radius, nx, ny, nz):
+        """Calculate circulation around each point.
+
+        Should be same signature as getcirc.
+        :py:func:`functools.wraps` should also ensure it has the same
+        docstring.
+        """
         # TODO: stack on time dimension
         return circ.getcirc(u.T, v.T, x, y, z, dx, dy, dz, radius, nx, ny, nz).T
 
     py_getcirc = getcirc
-    getcirc = f_getcirc
+    getcirc = f_getcirc  # type: ignore
 except ImportError:
     pass

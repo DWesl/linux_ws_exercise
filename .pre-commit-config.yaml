@@ -14,6 +14,8 @@ repos:
     -   id: check-docstring-first
     -   id: fix-encoding-pragma
     -   id: requirements-txt-fixer
+    -   id: check-symlinks
+    -   id: destroyed-symlinks
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.981
   hooks:
@@ -67,18 +69,18 @@ repos:
     - id: setuptools-check
       name: setuptools-check
       language: python
-      additional_dependencies: ["setuptools"]
-      entry: cd computeC_v1.1; python setup.py check
-      files: "^setup\\.(py|cfg)$|^pyproject\\.toml$|^src/advection/"
+      additional_dependencies: ["setuptools", "scikit-build"]
+      entry: bash -c "cd computeCirc_v1.1; python setup.py check"
+      files: "^computeCirc_v1.1/(setup\\.(py|cfg)$|pyproject\\.toml$|src/)"
       types_or: ["python", "toml", "ini"]
       pass_filenames: false
       description: "Check setuptools metadata"
     - id: setuptools-build-py
       name: setuptools-build-py
       language: python
-      additional_dependencies: ["setuptools"]
-      entry: cd computeC_v1.1; python setup.py build_py
-      files: "^setup\\.(py|cfg)$|^pyproject\\.toml$|^src/advection/"
+      additional_dependencies: ["setuptools", "scikit-build"]
+      entry: bash -c "cd computeCirc_v1.1; python setup.py build_py"
+      files: "^computeCirc_v1.1/(setup\\.(py|cfg)$|pyproject\\.toml$|src/)"
       types_or: ["python", "toml", "ini"]
       pass_filenames: false
       description: "Check setuptools metadata"

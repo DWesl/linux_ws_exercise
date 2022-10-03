@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""Package declaration for scikit-build.
+
+The configuration delegated to setuptools is left in ``setup.cfg``.
+"""
 from skbuild import setup
 
 setup(

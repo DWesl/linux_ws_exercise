@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""Wrapper to run main function as package.
+
+Allows ``python -m computeCirc``
+"""
 import sys
 
 from .main import main
