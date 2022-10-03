@@ -43,7 +43,7 @@ install(
 
 add_cython_target(
     _cy_circ
-    circ.pyx
+    _cy_circ.pyx
     C PY3
     OUTPUT_VAR "cy_circ_src"
   )
