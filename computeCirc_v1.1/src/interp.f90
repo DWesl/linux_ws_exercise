@@ -42,11 +42,11 @@
       sz = int((z-zgrid(1))/dz) + 1
 
 ! Interpolate in space...
-     
-      c1 = (x-xgrid(sx)) / dx                       
-      c2 = (y-ygrid(sy)) / dy                       
-      c3 = (z-zgrid(sz)) / dz                    
-                                                   
+
+      c1 = (x-xgrid(sx)) / dx
+      c2 = (y-ygrid(sy)) / dy
+      c3 = (z-zgrid(sz)) / dz
+
       if ( var(sx,sy,sz).ne.missing_val .and. &
      &     var(sx+1,sy,sz).ne.missing_val .and. &
      &     var(sx,sy+1,sz).ne.missing_val .and. &
@@ -65,8 +65,8 @@
      &              + c1*c2*(1-c3)*var(sx+1,sy+1,sz) &
      &              + c1*c2*c3*var(sx+1,sy+1,sz+1)
 
-      else 
-         
+      else
+
          interpvar = missing_val
 
       endif

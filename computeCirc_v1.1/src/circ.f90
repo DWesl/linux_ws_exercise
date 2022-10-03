@@ -25,14 +25,14 @@
       real, dimension(nx, ny, nz), intent(out) :: circ
 
 ! Local variables
- 
+
       integer i, j, k, m
       real utmp, vtmp, angle, metangle, sumVt, incr
       real xtmp, ytmp
       integer badflag
       integer, parameter :: nazimuths = 72
 
-!--------------------------------------------------------------------      
+!--------------------------------------------------------------------
 
       circ(:,:,:) = missing_val
 
@@ -63,7 +63,7 @@
      &                      + vtmp*cos(metangle)
            endif
          enddo
-        
+
          if (badflag.ne.1) then
            circ(i,j,k) = (sumVt/nazimuths)*2.*pi*radius*km2m
          endif

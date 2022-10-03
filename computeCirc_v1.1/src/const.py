@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 """Constants for use in calculating circulation.
 
-It might be useful to pull a few other constants here from other
-files.
+It might be useful to pull a few other constants here from other files.
 """
 import math
 

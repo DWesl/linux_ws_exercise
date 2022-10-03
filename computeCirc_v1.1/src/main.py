@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Calculate circulation for given files.
 
 Read list of files and radius of circles for circulation calculations
@@ -12,9 +13,7 @@ import sys
 
 import numpy as np
 
-from . import circ
-from . import const
-from . import netcdfio
+from . import circ, const, netcdfio
 
 C_SCALE = 1.0e-4
 
@@ -55,6 +54,7 @@ def parse_namelist(fileptr: "io.TextIOBase") -> configparser.ConfigParser:
     namelist_parser.read_file(fileptr)
     return namelist_parser
 
+
 def compute_circulation(fileptr: io.TextIOBase):
     namelist_parser = parse_namelist(fileptr)
     inputparms = namelist_parser["inputparms"]
@@ -78,9 +78,7 @@ def compute_circulation(fileptr: io.TextIOBase):
         u = netcdfio.netcdf_read(u_variable, in_file_name, nx, ny, nz)
         v = netcdfio.netcdf_read(v_variable, in_file_name, nx, ny, nz)
 
-        circulation = circ.getcirc(
-            u[0], v[0], x, y, z, dx, dy, dz, radius, nx, ny, nz
-        )
+        circulation = circ.getcirc(u[0], v[0], x, y, z, dx, dy, dz, radius, nx, ny, nz)
 
         circulation *= C_SCALE
 

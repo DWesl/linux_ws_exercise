@@ -1,7 +1,7 @@
 !--------------------------------------------------------------
-! This is an example input file for computeC.  
-! 
-!  nfiles              number of netcdf files on which you wish 
+! This is an example input file for computeC.
+!
+!  nfiles              number of netcdf files on which you wish
 !                      to compute fields of circulation
 !
 !  infile(n)           nth netcdf input file to be examined
@@ -10,7 +10,7 @@
 !
 !  v_variable          name of y wind component in netcdf file
 !
-!  radius              radius (km) about which you which to compute 
+!  radius              radius (km) about which you which to compute
 !                      circulation at each grid point
 !
 !--------------------------------------------------------------

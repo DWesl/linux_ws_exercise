@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Functions for interacting with netCDF files.
 
 Simple wrappers around netCDF4 calls, mostly.

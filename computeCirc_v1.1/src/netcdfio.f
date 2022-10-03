@@ -28,9 +28,9 @@
       integer ncid                    ! File id for the NetCDF file
 
       integer rcode                   ! Return code for calls to NetCDF library
- 
+
       integer itmp                    ! temporary integer value
-      
+
       character(len=MAXNCNAM) tmpstring  ! temporary character string
 
 !----------------------------------------------------------------------
@@ -124,7 +124,7 @@ c$$$  call ncclos(ncid, rcode)
       integer, intent(in) :: nx, ny, nz        ! number of x, y, and z grid points
 
       real, intent(out) :: dx, dy, dz           ! x, y, z grid spacing
- 
+
       real, intent(out) :: x(nx), y(ny), z(nz)  ! x, y, z grid point coordinates
 
       character(len=100), intent(in) :: filename    ! netcdf filename
@@ -134,18 +134,18 @@ c$$$  call ncclos(ncid, rcode)
       integer ncid              ! File id for the NetCDF file
 
       integer rcode             ! Return code for calls to NetCDF library
- 
+
       integer i, j, k           ! indices
-      
+
       integer itmp              ! temporary integer
 
 !----------------------------------------------------------------------
 ! Open netcdf file.
-    
+
       ncid = ncopn(filename, NCNOWRIT, rcode)
-      
-! Obtain dx, dy, dz, and x, y, z coordinates    
-  
+
+! Obtain dx, dy, dz, and x, y, z coordinates
+
       itmp = ncvid(ncid,'x',rcode)
       do i = 1, nx
          call ncvgt1(ncid,itmp,i,x(i),rcode)
@@ -179,7 +179,7 @@ c$$$  call ncclos(ncid, rcode)
 !----------------------------------------------------------------------
 
 !----------------------------------------------------------------------
-! This subroutine returns a list of the variables contained in a 
+! This subroutine returns a list of the variables contained in a
 ! netcdf file
 
       subroutine getvarnames(filename,varname,nv)
@@ -193,7 +193,7 @@ c$$$  call ncclos(ncid, rcode)
       integer, intent(in) :: nv                      ! number of variables
 
       character(len=100), intent(in) :: filename     ! netcdf filename
- 
+
       character(len=8), dimension(nv), intent(out) :: varname  ! variable name
 
 ! Local variables
@@ -201,7 +201,7 @@ c$$$  call ncclos(ncid, rcode)
       integer ncid                    ! File id for the NetCDF file
 
       integer rcode                   ! Return code for calls to NetCDF library
-      
+
       character ctmp1*1, ctmp8*8      ! temporary character string
 
       integer ncindex2(2)             ! temporary index value
@@ -212,9 +212,9 @@ c$$$  call ncclos(ncid, rcode)
 
 !----------------------------------------------------------------------
 ! Open netcdf file.
-    
+
       ncid = ncopn (filename, NCNOWRIT, rcode)
-      
+
 ! Obtain variable names from netcdf file.
 
       itmp = ncvid(ncid,'field_names',rcode)
@@ -257,9 +257,9 @@ c$$$  call ncclos(ncid, rcode)
       integer, intent(in) :: nx, ny, nz        ! number of x, y, and z grid points
 
       character(len=100), intent(in) :: filename ! netcdf filename
- 
+
       character(len=8), intent(in) :: varname    ! variable name for which data are requested
- 
+
       real, intent(out), dimension(nx, ny, nz) :: val  ! value of variable requested
 
 ! Local variables
@@ -267,7 +267,7 @@ c$$$  call ncclos(ncid, rcode)
       integer ncid                    ! file id for the NetCDF file
 
       integer rcode                   ! return code for calls to NetCDF library
-      
+
       integer ncindex1(4)             ! temporary index value
 
       integer ncindex2(4)             ! temporary index value
@@ -279,14 +279,14 @@ c$$$  call ncclos(ncid, rcode)
 
 !----------------------------------------------------------------------
 ! Open netcdf file.
-    
+
       ncid = ncopn (filename, NCNOWRIT, rcode)
-      
+
 ! Determine ID of variable in the netcdf file.
 
       varid = ncvid(ncid, varname, rcode)
 
-! Get data.      
+! Get data.
 
       ncindex1(1) = 1
       ncindex1(2) = 1
@@ -312,7 +312,7 @@ c$$$  call ncclos(ncid, rcode)
 
 
 !----------------------------------------------------------------------
-! This subroutine overwrites a 3D array of data in a netcdf file. 
+! This subroutine overwrites a 3D array of data in a netcdf file.
 
       subroutine netcdf_overwrite(val,varname,filename,nx,ny,nz)
 
@@ -320,12 +320,12 @@ c$$$  call ncclos(ncid, rcode)
 
       include 'netcdf.inc'
 
-! Passed variables            
+! Passed variables
 
       integer, intent(in) :: nx, ny, nz      ! number of x, y, and z grid points
-      
+
       character(len=100), intent(in) :: filename  ! netcdf filename
- 
+
       real, dimension(nx, ny, nz), intent(in) :: val  ! value of variable to be written
 
       character(len=8), intent(in) :: varname     ! name of variable to be written
@@ -380,8 +380,8 @@ c$$$  call ncclos(ncid, rcode)
 
 
 !---------------------------------------------------------------------
-! This subroutine writes a *new* 3D array of data in a netcdf file.  
-! If the 3D array already exists in the netcdf file, then 
+! This subroutine writes a *new* 3D array of data in a netcdf file.
+! If the 3D array already exists in the netcdf file, then
 ! subroutine netcdf_overwrite should be called.
 
       subroutine netcdf_write(val,varname,filename,nx,ny,nz)
@@ -417,7 +417,7 @@ c$$$  call ncclos(ncid, rcode)
       integer vartyp          ! type of netcdf variable
 
       integer nvdims          ! number of variable dimensions
- 
+
       integer vdims(maxvdims) ! variable dimensions
 
       integer nvatts          ! number of variable attributes
@@ -429,7 +429,7 @@ c$$$  call ncclos(ncid, rcode)
       integer attlen          ! length of attribute
 
       integer ndims           ! number of dimensions
- 
+
       integer natts           ! number of attributes
 
       integer recdim          ! dimension of record
@@ -453,7 +453,7 @@ c$$$  call ncclos(ncid, rcode)
       call ncinq(ncid,ndims,nvars,natts,recdim,rcode)
 
       call ncredf(ncid,rcode)
- 
+
       call ncvinq(ncid,nvars,varnam,vartyp,nvdims,vdims,nvatts,rcode)
       varid = ncvdef(ncid,varname,vartyp,nvdims,vdims,rcode)
       do j = 1, nvatts

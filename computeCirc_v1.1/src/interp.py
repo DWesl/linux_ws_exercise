@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Interpolation on regularly-spaced grids.
 
 See Also

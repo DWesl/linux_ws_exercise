@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 """Calculate curculation for a wind field.
 
-This is calculated on a circle around each point in the domain where
-the circle will fit.
+This is calculated on a circle around each point in the domain where the
+circle will fit.
 """
 import math
 
@@ -9,8 +10,7 @@ import numexpr as ne
 import numpy as np
 import numpy.typing as npt
 
-from . import const
-from . import interp
+from . import const, interp
 
 N_AZIMUTHS = 72
 
@@ -148,8 +148,9 @@ def getcirc(
 
 
 try:
-    from ._f_circ import circ
     import functools
+
+    from ._f_circ import circ
 
     @functools.wraps(getcirc)
     def f_getcirc(u, v, x, y, z, dx, dy, dz, radius, nx, ny, nz):
