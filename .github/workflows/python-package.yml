@@ -44,4 +44,4 @@ jobs:
     - name: Test with pytest
       working-directory: ${{github.workspace}}/computeCirc_v1.1
       run: |
-        pytest
+        pytest --doctest-modules --pyargs computeCirc
