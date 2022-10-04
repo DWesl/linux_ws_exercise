@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "python-version" ]
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
     - name: Install dependencies
       working-directory: ${{github.workspace}}/computeCirc_v1.1
       run: |
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip scikit-build numpy cython wheel build
         python -m pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
@@ -37,6 +37,21 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Build package with setup.py
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+      run: |
+        python setup.py bdist_wheel
+        zipinfo dist/*.whl
+    - name: Build package with build
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+      run: |
+        python -m build .
+        zipinfo dist/*.whl
+    - name: Build package with pip
+      working-directory: ${{github.workspace}}/computeCirc_v1.1
+      run: |
+        python -m pip wheel --wheel-dir dist .
+        zipinfo dist/*.whl
     - name: Install package
       working-directory: ${{github.workspace}}/computeCirc_v1.1
       run: |

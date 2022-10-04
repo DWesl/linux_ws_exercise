@@ -18,7 +18,7 @@
       real, dimension(nx), intent(in) :: xgrid
       real, dimension(ny), intent(in) :: ygrid
       real, dimension(nz), intent(in) :: zgrid
-!     grid spacing (assumed uniform!)
+      ! grid spacing (assumed uniform!)
       real, intent(in) :: dx
       real, intent(in) :: dy
       real, intent(in) :: dz
@@ -35,13 +35,13 @@
       real :: c1, c2, c3
 
 
-! Find indices of gridpt located to the immediate southwest and below the parcel...
+      ! Find indices of gridpt located to the immediate southwest and below the parcel...
 
       sx = int((x-xgrid(1))/dx) + 1
       sy = int((y-ygrid(1))/dy) + 1
       sz = int((z-zgrid(1))/dz) + 1
 
-! Interpolate in space...
+      ! Interpolate in space...
 
       c1 = (x-xgrid(sx)) / dx
       c2 = (y-ygrid(sy)) / dy

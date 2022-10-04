@@ -46,18 +46,23 @@
 
 ! Determine size of arrays and get data from netcdf file.
 
-        print*,'Computing circulation...'
+         print*,'Computing circulation...'
+         print*,infile(n)
 
         call getsize(infile(n),nx,ny,nz,nv)
+        print*,'Have size'
         allocate (x(nx),y(ny),z(nz))
         call getgridinfo(infile(n),dx,dy,dz,x,y,z,nx,ny,nz)
+        print*,'Have grid info'
 
         allocate ( u(nx,ny,nz), v(nx,ny,nz), circ(nx,ny,nz) )
 
         call netcdf_read(u,u_variable,infile(n),nx,ny,nz)
         call netcdf_read(v,v_variable,infile(n),nx,ny,nz)
+        print*,'Have winds'
 
         call getcirc(u,v,x,y,z,dx,dy,dz,nx,ny,nz,radius,circ)
+        print*,'Have circulation'
 
         do i = 1, nx
            do j = 1, ny

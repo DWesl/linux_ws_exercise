@@ -17,7 +17,7 @@ _LOGGER = logging.getLogger(__name__)
 N_AZIMUTHS = 72
 
 
-def getcirc(
+def py_getcirc(
     u: "npt.NDArray[np.floating]",  # noqa: F821
     v: "npt.NDArray[np.floating]",  # noqa: F821
     x: "npt.NDArray[np.floating]",  # noqa: F821
@@ -149,12 +149,14 @@ def getcirc(
     return circ
 
 
+getcirc = py_getcirc
+
 try:
     import functools
 
     from ._f_circ import circ
 
-    @functools.wraps(getcirc)
+    @functools.wraps(py_getcirc)
     def f_getcirc(u, v, x, y, z, dx, dy, dz, radius, nx, ny, nz):
         """Calculate circulation around each point.
 
@@ -165,7 +167,13 @@ try:
         # TODO: stack on time dimension
         return circ.getcirc(u.T, v.T, x, y, z, dx, dy, dz, radius, nx, ny, nz).T
 
-    py_getcirc = getcirc
     getcirc = f_getcirc  # type: ignore
+except ImportError:
+    pass
+
+try:
+    from ._cy_circ import getcirc as cy_getcirc
+
+    getcirc = cy_getcirc
 except ImportError:
     pass

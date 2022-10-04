@@ -3,10 +3,10 @@ requires = [
     "setuptools>=42",
     "numpy",
     "scikit-build",
-    "cmake; sys_platform!='Cygwin'",
-    "ninja; sys_platform!='Cygwin'",
+    "cmake; sys_platform!='cygwin'",
+    "ninja; sys_platform!='cygwin'",
 ]
-build_backend = "setuptools.build_meta"
+build-backend = "setuptools.build_meta"
 
 [tool.isort]
 profile = "black"
