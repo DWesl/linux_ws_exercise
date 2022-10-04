@@ -10,7 +10,7 @@ set(CPACK_PACKAGE_CHECKSUM "SHA512")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
 include(CPack)
 
-add_executable(computeCirc src/main.f src/netcdfio.f src/circ.f90 src/interp.f90)
+add_executable(computeCirc src/computeCirc/main.f src/computeCirc/netcdfio.f src/computeCirc/circ.f90 src/computeCirc/interp.f90)
 target_link_libraries(computeCirc netcdff netcdf)
 target_include_directories(computeCirc PRIVATE /usr/include)
 install(TARGETS computeCirc DESTINATION bin)

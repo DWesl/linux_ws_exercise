@@ -8,7 +8,7 @@
 
       implicit none
 
-      include '../include/const.h'
+      include '../../include/const.h'
 
       ! dimensions of gridded dataset
       integer, intent(in) :: nx, ny, nz

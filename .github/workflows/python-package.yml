@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main", "python-version" ]
+    branches: [ "main", "python-version", "cython-version" ]
 
 jobs:
   build:
