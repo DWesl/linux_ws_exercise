@@ -12,7 +12,7 @@
       use interp, only : interp3
       implicit none
 
-      include '../include/const.h'
+      include '../../include/const.h'
 
 ! Passed variables
 

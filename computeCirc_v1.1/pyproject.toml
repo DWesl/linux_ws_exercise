@@ -20,4 +20,4 @@ style = ["pep257", "numpydoc"]
 
 [tool.mypy]
 # strict = true
-files = "src/*.py"
+files = "src/computeCirc/*.py"
