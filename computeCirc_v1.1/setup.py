@@ -17,5 +17,5 @@ setup(
         ("computeCirc", ["input/computeC.input"]),
     ],
     entry_points={"console_scripts": ["computeCirc = computeCirc.main:main"]},
-    cmake_source_dir="src/computeCirc",
+    cmake_source_dir="src/",
 )
